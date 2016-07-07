@@ -1,34 +1,32 @@
 # Location Tracker Envoy Server
 
-The Location Tracker Server is a Node.js application to be used in conjunction with the [Location Tracker app](https://github.com/ibm-cds-labs/location-tracker-client-swift).
+The Location Tracker Envoy Server is a Node.js application to be used in conjunction with the [Location Tracker app](https://github.com/ibm-cds-labs/location-tracker-client-swift).
 
-The Location Tracker Server connects to IBM Cloudant and provides RESTful APIs for creating/managing users and creating/querying locations using [Cloudant Geo](https://docs.cloudant.com/geo.html). 
+The Location Tracker Envoy Server connects to IBM Cloudant and provides RESTful APIs for creating/managing users and creating/querying locations using [Cloudant Geo](https://docs.cloudant.com/geo.html). 
 
 ## How it works
 
-The Location Tracker app supports offline-first, Cloudant Sync, and is implemented on a database-per-user architecture. When a user registers, a specific database is created for that user and is used to track only that user's locations. In addition, the server configures continuous replication for each user-specific database into a consolidated database where all locations can be queried. See the architecture diagram below for more information:
+Update TBD
 
-![Architecture of Location Tracker](http://developer.ibm.com/clouddataservices/wp-content/uploads/sites/47/2016/05/locationTracker2ArchDiagram1.png)
-
-When you install the Location Tracker Server three databases will be created in your Cloudant instance:
+When you install the Location Tracker Envoy Server three databases will be created in your Cloudant instance:
 
 ![Location Tracker Cloudant](http://developer.ibm.com/clouddataservices/wp-content/uploads/sites/47/2016/05/locationTracker2Cloudant.png)
 
-1. lt_locations_all - This database is used to keep track of all locations. When a user registers, a specific database will be created to track locations for that user. Each user-specific database will be configured to continuously replicate into the lt_locations_all database.
+1. lt_locations_all_envoy - This database is used to keep track of all user locations.
 2. lt_places - This database contains a list of places that the Location Tracker app will query.
-3. lt_users - This database is used to manage users. Each user will have a username, password and information regarding the location database for that specific user.
+3. envoyusers - This database is used to manage users. Each user will have a username, password and information regarding the location database for that specific user.
 
-The `lt_locations_all` and `lt_places` database will each be created with a geo index allowing you to make geo queries and take advantage of the integrated map visuals in the Cloudant Dashboard. The `lt_places` database will be populated with 50 sample places that follow the path of the "Freeway Drive" debug location setting in the iOS simulator:
+The `lt_locations_all_envoy` and `lt_places` database will each be created with a geo index allowing you to make geo queries and take advantage of the integrated map visuals in the Cloudant Dashboard. The `lt_places` database will be populated with 50 sample places that follow the path of the "Freeway Drive" debug location setting in the iOS simulator:
  
  ![Location Tracker Sample Places](http://developer.ibm.com/clouddataservices/wp-content/uploads/sites/47/2016/05/locationTracker2CloudantPlaces2.png)
 
-Follow the instructions below to get the Location Tracker Server up and running locally or on Bluemix. Once you are finished follow the instructions to download and run the [Location Tracker app](https://github.com/ibm-cds-labs/location-tracker-client-swift).
+Follow the instructions below to get the Location Tracker Envoy Server up and running locally or on Bluemix. Once you are finished follow the instructions to download and run the [Location Tracker app](https://github.com/ibm-cds-labs/location-tracker-client-swift).
 
 ## Running on Bluemix
 
 The fastest way to deploy this application to Bluemix is to click the **Deploy to Bluemix** button below.
 
-[![Deploy to Bluemix](https://deployment-tracker.mybluemix.net/stats/eff5ff771f3cfd9e9443463c383565a1/button.svg)](https://bluemix.net/deploy?repository=https://github.com/ibm-cds-labs/location-tracker-server-nodejs)
+[![Deploy to Bluemix](https://deployment-tracker.mybluemix.net/stats/eff5ff771f3cfd9e9443463c383565a1/button.svg)](https://bluemix.net/deploy?repository=https://github.com/ibm-cds-labs/location-tracker-server-envoy)
 
 **Don't have a Bluemix account?** If you haven't already, you'll be prompted to sign up for a Bluemix account when you click the button.  Sign up, verify your email address, then return here and click the the **Deploy to Bluemix** button again. Your new credentials let you deploy to the platform and also to code online with Bluemix and Git. If you have questions about working in Bluemix, find answers in the [Bluemix Docs](https://www.ng.bluemix.net/docs/).
 
