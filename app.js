@@ -39,6 +39,7 @@ var appEnv = cfenv.getAppEnv();
   var envoyDbName = 'lt_locations_all_envoy';
   var envoyHost = process.env.ENVOY_HOST;
   var envoyHostProtocol = process.env.ENVOY_HOST_PROTOCOL || 'https';
+  var envoyPort = process.env.ENVOY_PORT || 443;
   var envoyAuth = process.env.ENVOY_AUTH || 'default';
   if (envoyAuth == 'default') {
     apiEnvoy = require('./routes/api-envoy-default');
