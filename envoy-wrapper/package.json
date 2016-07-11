@@ -1,12 +1,10 @@
 {
-  "name": "location-tracker-server-envoy",
+  "name": "location-tracker-server-envoy-wrapper",
   "version": "0.0.1",
-  "description": "A demo web application which records a device's location and saves this information to IBM Cloudant",
+  "description": "Cloudant Envoy Wrapper for the Location Tracker",
   "main": "app.js",
   "scripts": {
-    "install": "./admin.js db put",
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -29,20 +27,7 @@
   },
   "homepage": "https://github.com/ibm-cds-labs/location-tracker-server-envoy",
   "dependencies": {
-    "body-parser": "^1.11.0",
-    "cf-deployment-tracker-client": "^0.0.3",
-    "cfenv": "1.0.x",
-    "cloudant": "^1.3.0",
     "cloudant-envoy": "git+https://github.com/cloudant-labs/envoy",
-    "commander": "^2.6.0",
-    "crypto": "0.0.3",
-    "dotenv": "^0.5.1",
-    "express": "^4.11.1",
-    "http-post": "^0.1.1",
-    "nano": "6.2.0",
-    "q": "^1.4.1",
-    "request": "^2.69.0",
-    "uuid": "^2.0.2",
-    "wurl": "^2.1.0"
+    "dotenv": "^0.5.1"
   }
 }

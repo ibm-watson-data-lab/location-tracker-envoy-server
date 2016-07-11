@@ -40,14 +40,14 @@ var appEnv = cfenv.getAppEnv();
   var envoyDbName = 'lt_locations_all_envoy';
   var envoyHost = process.env.ENVOY_HOST;
   var envoyHostProtocol = process.env.ENVOY_HOST_PROTOCOL || 'https';
-  var envoyPort = process.env.ENVOY_PORT || 8001;
+  var envoyPort = process.env.ENVOY_PORT || appEnv.port || 8001;
   var envoyAuth = process.env.ENVOY_AUTH || 'default';
   var envoyOpts = {
     couchHost: service.credentials.url,
     databaseName: envoyDbName,
     port: envoyPort
   };
-  envoy = require('cloudant-envoy/app.js')(envoyOpts);
+  //envoy = require('cloudant-envoy/app.js')(envoyOpts);
   if (envoyAuth == 'default') {
     apiEnvoy = require('./routes/api-envoy-default');
   }
