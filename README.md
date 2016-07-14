@@ -4,7 +4,7 @@ The Location Tracker Envoy Server is a Node.js application to be used in conjunc
 
 The Location Tracker Envoy Server connects to IBM Cloudant and provides RESTful APIs for creating/managing users and creating/querying locations using [Cloudant Geo](https://docs.cloudant.com/geo.html). 
 
-The Location Tracker Envoy Server uses [Cloudant Envoy](https://github.com/cloudant-labs/envoy) to allow the iOS app to sync user location information safely and securely, saving all locations in a single, centralized database while ensuring users can only access their own location information.
+The Location Tracker Envoy Server uses [Cloudant Envoy](https://github.com/cloudant-labs/envoy). It directs the iOS app to sync locations through Envoy. Envoy allows the iOS app to adopt a database-per-user design pattern, with a copy of a user's data stored on the device and synced to the cloud when online, while invisibly storing all the users' data in one large database.
 
 ## How it works
 
