@@ -4,7 +4,7 @@ The Location Tracker Envoy Server is a Node.js application to be used in conjunc
 
 The Location Tracker Envoy Server connects to IBM Cloudant and provides RESTful APIs for creating/managing users and creating/querying locations using [Cloudant Geo](https://docs.cloudant.com/geo.html). 
 
-The Location Tracker Envoy Server uses [Cloudant Envoy](https://github.com/cloudant-labs/envoy). It directs the iOS app to sync locations through Envoy. Envoy allows the iOS app to adopt a database-per-user design pattern, with a copy of a user's data stored on the device and synced to the cloud when online, while invisibly storing all the users' data in one large database.
+The Location Tracker Envoy Server uses [Cloudant Envoy](https://github.com/cloudant-labs/envoy). It directs the iOS app to sync locations through Envoy rather than syncing locations directly to user-specific databases in Cloudant. Envoy allows the iOS app to adopt a database-per-user design pattern, with a copy of a user's data stored on the device and synced to the cloud when online, while invisibly storing all the users' data in one large database.
 
 ## How it works
 
@@ -18,11 +18,11 @@ The `lt_locations_all_envoy` and `lt_places` database will each be created with 
  
  ![Location Tracker Sample Places](http://developer.ibm.com/clouddataservices/wp-content/uploads/sites/47/2016/05/locationTracker2CloudantPlaces2.png)
 
-Follow the instructions below to get the Location Tracker Envoy Server up and running below. Once you are finished follow the instructions to download and run the [Location Tracker app](https://github.com/ibm-cds-labs/location-tracker-client-swift).
+Follow the instructions below to get the Location Tracker Envoy Server up and running. Once you are finished follow the instructions to download and run the [Location Tracker app](https://github.com/ibm-cds-labs/location-tracker-client-swift).
 
 ## Prerequisites
 
-The Location Tracker Envoy Server uses [Cloudant Envoy](https://github.com/cloudant-labs/envoy) which requires CouchDB features not currently available in the official release of Cloudant. Before you can run the Location Tracker Envoy Server please configure a new Cloudant instance in Bluemix called `cloudant-location-tracker-db`. If you have already deployed the non-Envoy version of the Location Tracker Server and have created this Cloudant instance you may skip this step.
+The Location Tracker Envoy Server uses [Cloudant Envoy](https://github.com/cloudant-labs/envoy) which requires CouchDB features not currently available in the official release of Cloudant. Before you can run the Location Tracker Envoy Server please configure a new Cloudant instance in Bluemix called `cloudant-location-tracker-db`. If you have already deployed the non-Envoy version of the Location Tracker Server you may already have a Cloudant instance by this name and can continue to the next step.
 
 After you create your Cloudant instance you will need to request that the account be moved to the Cloudant cluster "Porter" with an email to support@cloudant.com stating your account name.
 
@@ -37,12 +37,6 @@ Clone this project and change into the project directory:
     $ git clone https://github.com/ibm-cds-labs/location-tracker-server-envoy.git
     $ cd location-tracker-server-envoy
     
-You can deploy the Location Tracker Envoy Server to Bluemix from your local instance using the Cloud Foundry command line interface. If you haven't already, follow these steps to get the Cloud Foundry CLI installed and configured:
-
-1. [Install the Cloud Foundry command line interface.](https://www.ng.bluemix.net/docs/#starters/install_cli.html)
-2. Follow the instructions at the above link to connect to Bluemix.
-3. Follow the instructions at the above link to log in to Bluemix.
-
 Open the manifest.yml file and specify a unique host name for Envoy and the Location Tracker Envoy Server:
 
 1. Replace `cloudant-envoy-XXXX` with a unique path in Bluemix. For example, `cloudant-envoy-mwatson`. If the path is already taken the deploy to Bluemix will fail and you will have to find a new path. Note: there are two places to change this value in the manifest.yml file:
@@ -52,6 +46,12 @@ Open the manifest.yml file and specify a unique host name for Envoy and the Loca
     `ENVOY_HOST: cloudant-envoy-xxxx.mybluemix.net` - This tells the Location Tracker Envoy Server the path at which Envoy can be found.
 
 2. Replace `location-tracker-envoy-XXXX` with a unique path in Bluemix. For example, `location-tracker-envoy-envoy-mwatson`. 
+
+You can deploy the Location Tracker Envoy Server to Bluemix from your local instance using the Cloud Foundry command line interface. If you haven't already, follow these steps to get the Cloud Foundry CLI installed and configured:
+
+1. [Install the Cloud Foundry command line interface.](https://www.ng.bluemix.net/docs/#starters/install_cli.html)
+2. Follow the instructions at the above link to connect to Bluemix.
+3. Follow the instructions at the above link to log in to Bluemix.
 
 To deploy to Bluemix run the following command:
 
