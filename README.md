@@ -28,9 +28,9 @@ After you create your Cloudant instance you will need to request that the accoun
 
 ## Running on Bluemix
 
-Be sure to finish the steps document in Prerequisites before continuing.
+Be sure to finish the steps documented in the Prerequisites section above before continuing.
 
-The Location Tracker Envoy Server requires a running instance of [Cloudant Envoy](https://github.com/cloudant-labs/envoy). To simplifiy deployment the Location Tracker Envoy Server includes a wrapped version of Envoy. This provides an easy way to deploy Cloudant Envoy and the Location Tracker Envoy Server using a single command.
+The Location Tracker Envoy Server requires a running instance of [Cloudant Envoy](https://github.com/cloudant-labs/envoy). To simplify deployment the Location Tracker Envoy Server includes a wrapped version of Envoy. This provides an easy way to deploy Cloudant Envoy and the Location Tracker Envoy Server using a single command.
 
 Clone this project and change into the project directory:
 
@@ -43,13 +43,23 @@ You can deploy the Location Tracker Envoy Server to Bluemix from your local inst
 2. Follow the instructions at the above link to connect to Bluemix.
 3. Follow the instructions at the above link to log in to Bluemix.
 
-Open the manifest.yml file and 
+Open the manifest.yml file and specify a unique host name for Envoy and the Location Tracker Envoy Server:
+
+1. Replace `cloudant-envoy-XXXX` with a unique path in Bluemix. For example, `cloudant-envoy-mwatson`. If the path is already taken the deploy to Bluemix will fail and you will have to find a new path. Note: there are two places to change this value in the manifest.yml file:
+
+    `host: cloudant-envoy-XXXX` - This specifies the path that should be assigned to Envoy. 
+
+    `ENVOY_HOST: cloudant-envoy-xxxx.mybluemix.net` - This tells the Location Tracker Envoy Server the path at which Envoy can be found.
+
+2. Replace `location-tracker-envoy-XXXX` with a unique path in Bluemix. For example, `location-tracker-envoy-envoy-mwatson`. 
 
 To deploy to Bluemix run the following command:
 
     $ cf push
 
-**Note:** You may notice that Bluemix assigns a URL to your app containing a random word. This is defined in the `manifest.yml` file. The `host` key in this file contains the value `cloudant-location-tracker-${random-word}`. The random word is there to ensure that multiple people deploying the Location Tracker application to Bluemix do not run into naming collisions. However, this will cause a new route to be created for your application each time you deploy to Bluemix. To prevent this from happening, replace `${random-word}` with a hard coded (but unique) value.
+After you have deployed Cloudant Envoy and the Location Tracker Envoy Server to Bluemix be sure to update the Location Tracker app to point to your new server. You can find this setting in AppConstants.swift. Here is an example:
+
+`static let baseUrl: String = "http://location-tracker-envoy-XXXX.mybluemix.net"`
 
 ## Privacy Notice
 

@@ -22,6 +22,6 @@ applications:
   services:
   - cloudant-location-tracker-db
   env:
-    ENVOY_HOST: cloudant-envoy-XXXX
+    ENVOY_HOST: cloudant-envoy-xxxx.mybluemix.net
     ENVOY_PORT: 443
     ENVOY_AUTH: default
