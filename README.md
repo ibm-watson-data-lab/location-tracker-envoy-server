@@ -4,62 +4,46 @@ The Location Tracker Envoy Server is a Node.js application to be used in conjunc
 
 The Location Tracker Envoy Server connects to IBM Cloudant and provides RESTful APIs for creating/managing users and creating/querying locations using [Cloudant Geo](https://docs.cloudant.com/geo.html). 
 
-## How it works
+The Location Tracker Envoy Server uses [Cloudant Envoy](https://github.com/cloudant-labs/envoy) to allow the iOS app to sync user location information safely and securely, saving all locations in a single, centralized database while ensuring users can only access their own location information.
 
-Update TBD
+## How it works
 
 When you install the Location Tracker Envoy Server three databases will be created in your Cloudant instance:
 
-![Location Tracker Cloudant](http://developer.ibm.com/clouddataservices/wp-content/uploads/sites/47/2016/05/locationTracker2Cloudant.png)
+1. `envoyusers` - This database is used by the server and by Cloudant Envoy to manage and authenticate users.
+2. `lt_locations_all_envoy` - This database is used to keep track of all locations synced from iOS devices to Cloudant through Envoy.
+3. `lt_places` - This database contains a list of places that the Location Tracker app will query.
 
-1. lt_locations_all_envoy - This database is used to keep track of all user locations.
-2. lt_places - This database contains a list of places that the Location Tracker app will query.
-3. envoyusers - This database is used to manage users. Each user will have a username, password and information regarding the location database for that specific user.
-
-The `lt_locations_all_envoy` and `lt_places` database will each be created with a geo index allowing you to make geo queries and take advantage of the integrated map visuals in the Cloudant Dashboard. The `lt_places` database will be populated with 50 sample places that follow the path of the "Freeway Drive" debug location setting in the iOS simulator:
+The `lt_locations_all_envoy` and `lt_places` database will each be created with a geo index allowing you to make geo queries and take advantage of the integrated map visuals in the Cloudant Dashboard. The `lt_places` database will be populated with 50 sample places that follow the path of the "Freeway Drive" debug location:
  
  ![Location Tracker Sample Places](http://developer.ibm.com/clouddataservices/wp-content/uploads/sites/47/2016/05/locationTracker2CloudantPlaces2.png)
 
-Follow the instructions below to get the Location Tracker Envoy Server up and running locally or on Bluemix. Once you are finished follow the instructions to download and run the [Location Tracker app](https://github.com/ibm-cds-labs/location-tracker-client-swift).
+Follow the instructions below to get the Location Tracker Envoy Server up and running below. Once you are finished follow the instructions to download and run the [Location Tracker app](https://github.com/ibm-cds-labs/location-tracker-client-swift).
+
+## Prerequisites
+
+The Location Tracker Envoy Server uses [Cloudant Envoy](https://github.com/cloudant-labs/envoy) which requires CouchDB features not currently available in the official release of Cloudant. Before you can run the Location Tracker Envoy Server please configure a new Cloudant instance in Bluemix called `cloudant-location-tracker-db`. If you have already deployed the non-Envoy version of the Location Tracker Server and have created this Cloudant instance you may skip this step.
+
+After you create your Cloudant instance you will need to request that the account be moved to the Cloudant cluster "Porter" with an email to support@cloudant.com stating your account name.
 
 ## Running on Bluemix
 
-The fastest way to deploy this application to Bluemix is to click the **Deploy to Bluemix** button below.
+Be sure to finish the steps document in Prerequisites before continuing.
 
-[![Deploy to Bluemix](https://deployment-tracker.mybluemix.net/stats/f1fcbabc7fdf533260621a0fa11c1d32/button.svg)](https://bluemix.net/deploy?repository=https://github.com/ibm-cds-labs/location-tracker-server-envoy)
-
-**Don't have a Bluemix account?** If you haven't already, you'll be prompted to sign up for a Bluemix account when you click the button.  Sign up, verify your email address, then return here and click the the **Deploy to Bluemix** button again. Your new credentials let you deploy to the platform and also to code online with Bluemix and Git. If you have questions about working in Bluemix, find answers in the [Bluemix Docs](https://www.ng.bluemix.net/docs/).
-
-## Running Locally
+The Location Tracker Envoy Server requires a running instance of [Cloudant Envoy](https://github.com/cloudant-labs/envoy). To simplifiy deployment the Location Tracker Envoy Server includes a wrapped version of Envoy. This provides an easy way to deploy Cloudant Envoy and the Location Tracker Envoy Server using a single command.
 
 Clone this project and change into the project directory:
 
-    $ git clone https://github.com/ibm-cds-labs/location-tracker-server-nodejs.git
-    $ cd location-tracker-server-nodejs
-
-The Node.js service requires a Cloudant instance. If you haven't already done so provision a new Cloudant instance in Bluemix. Create a .env file in the root folder of the project. One environment variable, `VCAP_SERVICES`, is needed in order to configure your local development environment. The value of the `VCAP_SERVICES` is a string representation of a JSON object and must include a Cloudant definition called `cloudant-location-tracker-db`. Here is an example `.env` file:
-
-    VCAP_SERVICES={"cloudantNoSQLDB": [{"name": "cloudant-location-tracker-db","label": "cloudantNoSQLDB","plan": "Shared","credentials": {"username": "your-username","password": "your-password","host": "your-host","port": 443,"url": "https://your-username:your-password@your-host"}}]}
-
-Install the project's dependencies (NOTE: make sure you have a Cloudant instance and .env file configured properly before running this step):
-
-    $ npm install
-
-Start the Node.js server by running:
-
-    $ npm start
-
-### Deploying to IBM Bluemix
-
-You can deploy the Location Tracker Server to Bluemix from your local instance using the Cloud Foundry command line interface. If you haven't already, follow these steps to get the Cloud Foundry CLI installed and configured:
+    $ git clone https://github.com/ibm-cds-labs/location-tracker-server-envoy.git
+    $ cd location-tracker-server-envoy
+    
+You can deploy the Location Tracker Envoy Server to Bluemix from your local instance using the Cloud Foundry command line interface. If you haven't already, follow these steps to get the Cloud Foundry CLI installed and configured:
 
 1. [Install the Cloud Foundry command line interface.](https://www.ng.bluemix.net/docs/#starters/install_cli.html)
 2. Follow the instructions at the above link to connect to Bluemix.
 3. Follow the instructions at the above link to log in to Bluemix.
 
-Create a Cloudant service within Bluemix if one has not already been created:
-
-    $ cf create-service cloudantNoSQLDB Shared cloudant-location-tracker-db
+Open the manifest.yml file and 
 
 To deploy to Bluemix run the following command:
 
@@ -69,7 +53,7 @@ To deploy to Bluemix run the following command:
 
 ## Privacy Notice
 
-The Location Tracker sample web application includes code to track deployments to [IBM Bluemix](https://www.bluemix.net/) and other Cloud Foundry platforms. The following information is sent to a [Deployment Tracker](https://github.com/cloudant-labs/deployment-tracker) service on each deployment:
+The Location Tracker Envoy Server includes code to track deployments to [IBM Bluemix](https://www.bluemix.net/) and other Cloud Foundry platforms. The following information is sent to a [Deployment Tracker](https://github.com/cloudant-labs/deployment-tracker) service on each deployment:
 
 * Application Name (`application_name`)
 * Space ID (`space_id`)
@@ -80,7 +64,9 @@ This data is collected from the `VCAP_APPLICATION` environment variable in IBM B
 
 ### Disabling Deployment Tracking
 
-Deployment tracking can be disabled by removing `./admin.js track && ` from the `install` script line of the `scripts` section within `package.json`.
+Deployment tracking can be disabled by removing or commenting out the following line in `app.js':
+
+`require("cf-deployment-tracker-client").track();`
 
 ## License
 
