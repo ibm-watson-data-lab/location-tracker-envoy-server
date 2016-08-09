@@ -43,9 +43,9 @@ Open the manifest.yml file and specify a unique host name for Envoy and the Loca
 
     `host: cloudant-envoy-XXXX` - This specifies the path that should be assigned to Envoy. 
 
-    `ENVOY_HOST: cloudant-envoy-xxxx.mybluemix.net` - This tells the Location Tracker Envoy Server the path at which Envoy can be found.
+    `ENVOY_HOST: cloudant-envoy-XXXX.mybluemix.net` - This tells the Location Tracker Envoy Server the path at which Envoy can be found.
 
-2. Replace `location-tracker-envoy-XXXX` with a unique path in Bluemix. For example, `location-tracker-envoy-envoy-mwatson`. 
+2. Replace `location-tracker-envoy-XXXX` with a unique path in Bluemix. For example, `location-tracker-envoy-mwatson`. 
 
 You can deploy the Location Tracker Envoy Server to Bluemix from your local instance using the Cloud Foundry command line interface. If you haven't already, follow these steps to get the Cloud Foundry CLI installed and configured:
 
