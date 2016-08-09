@@ -61,6 +61,8 @@ After you have deployed Cloudant Envoy and the Location Tracker Envoy Server to 
 
 `static let baseUrl: String = "http://location-tracker-envoy-XXXX.mybluemix.net"`
 
+> Note: Be sure to omit the trailing <code>/</code> on your `baseUrl` string.
+
 ## Privacy Notice
 
 The Location Tracker Envoy Server includes code to track deployments to [IBM Bluemix](https://www.bluemix.net/) and other Cloud Foundry platforms. The following information is sent to a [Deployment Tracker](https://github.com/cloudant-labs/deployment-tracker) service on each deployment:
